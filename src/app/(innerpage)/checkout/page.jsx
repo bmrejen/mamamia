@@ -257,8 +257,8 @@ const CheckoutPage = () => {
                     </div>
                   </div>
                   
-                  <button type="submit" className="theme-btn">
-                    Complete Purchase - ${flashcardDecks[selectedDeck].price}
+                  <button type="submit" className="theme-btn" disabled={subtotal <= 0}>
+                    {subtotal > 0 ? `Complete Purchase - $${subtotal.toFixed(2)}` : 'Select a deck to continue'}
                   </button>
                 </form>
               </div>
