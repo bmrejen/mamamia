@@ -17,9 +17,9 @@ const page = () => {
   return (
       <div>
             <HeroBanner1
-                subtitle="<span>News version!</span>Even smarter"
-                title="The best flashcards to learn quickly"
-                content="Learn anything with our flashcards. Create your own flashcards or use our pre-made ones. Learn anything with our flashcards. Create your own flashcards or use our pre-made ones."
+                subtitle="<span>Physical Cards!</span>Learn English"
+                title="The Best English Flashcards for Children"
+                content="High-quality physical flashcards designed specifically for children to learn English vocabulary, pronunciation, and spelling. Made with durable cardstock and colorful illustrations."
                 btnname="Buy Now!"
                 btnurl="/pricing"
                 btntwo="Learn More"
@@ -34,32 +34,33 @@ const page = () => {
             <About1
                 img1="/assets/images/about/aboutThumb1_1.png"
                 img2="/assets/images/about/aboutThumb1_2.png"
-                subtitle="About Our App"
-                title="Simple Reports & Analytics Backdown As it"
-                content="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use"
+                subtitle="About Our Flashcards"
+                title="Designed for Children's Learning Success"
+                content="Our flashcards are carefully crafted with child development in mind. Each card features clear, colorful illustrations and age-appropriate vocabulary to make learning English fun and effective."
                 FeatureList={[
-                    "With our Technological and Marketing Solutions.",
-                    "We are trusted all over the world.",
-                    "Start Your 14 Days Free Trials Today!",
+                    "High-quality durable cardstock that lasts.",
+                    "Colorful illustrations that engage children.",
+                    "Age-appropriate vocabulary and concepts.",
+                    "Free shipping worldwide on all orders!",
                 ]}                
-                btnname="Discover More"
-                btnurl="/about"
+                btnname="View All Decks"
+                btnurl="/pricing"
             ></About1>  
             <HowWork></HowWork> 
             <Choose1
-                subtitle="App Advantage"
-                title="Get Benefit By Using Trending Apps"
-                content="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly"
+                subtitle="Why Choose Our Flashcards"
+                title="The Perfect Learning Tool for Children"
+                content="Our flashcards are designed by educators and child development experts to provide the most effective learning experience for young English learners."
                 FeatureList={[
-                    "Friendly Design",
-                    "SEO Optimized",
+                    "Child-Safe Materials",
+                    "Educational Expert Designed",
                 ]} 
                 FeatureList2={[
-                    "Cloud Storage",
-                    "Strong Security",
+                    "Free Worldwide Shipping",
+                    "30-Day Money Back Guarantee",
                 ]}                 
-                btnname="Download App"
-                btnurl="/about"
+                btnname="Order Now"
+                btnurl="/checkout"
             ></Choose1>
             <Feature1></Feature1> 
             <Counter1></Counter1>
@@ -68,11 +69,11 @@ const page = () => {
             <Feature2></Feature2>
             <Pricing1></Pricing1> 
             <Cta1
-                subtitle="Our App"
-                title="Download our app and start your free trail to get started today!"
-                content="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised"
-                btnurl1="https://play.google.com/store"
-                btnurl2="https://www.apple.com/store"
+                subtitle="Get Your Flashcards"
+                title="Order now and start your child's English learning journey!"
+                content="Join thousands of parents who trust our flashcards to help their children learn English effectively. Free shipping worldwide and 30-day money-back guarantee."
+                btnurl1="/checkout"
+                btnurl2="/pricing"
                 img="/assets/images/cta/ctaThumb1_1.png"
             ></Cta1>     
             <Blog1></Blog1>                         

@@ -4,7 +4,7 @@ import Feature4 from '../Components/Feature/Feature4';
 import Feature5 from '../Components/Feature/Feature5';
 import Feature6 from '../Components/Feature/Feature6';
 import HowWork3 from '../Components/HowWork/HowWork3';
-import Pricing3 from '../Components/Pricing/Pricing3';
+import Pricing1 from '../Components/Pricing/Pricing3';
 import Counter1 from '../Components/Counter/Counter1';
 import About3 from '../Components/About/About3';
 import Brand3 from '../Components/Brand/Brand3';
@@ -43,7 +43,7 @@ const page = () => {
             <Feature5></Feature5>
             <Feature6></Feature6>
             <HowWork3></HowWork3>
-            <Pricing3></Pricing3>
+            <Pricing1></Pricing1>
             <Counter1></Counter1> 
             <About3
                 img1="/assets/images/what-do.png"

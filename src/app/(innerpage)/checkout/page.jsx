@@ -1,9 +1,13 @@
 "use client"
 import React, { useState } from 'react';
-import BreadCumb from '@/app/Components/Common/BreadCumb';
+import { loadStripe } from '@stripe/stripe-js';
+import BreadCumb from '../../Components/Common/BreadCumb';
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutPage = () => {
   const [selectedDeck, setSelectedDeck] = useState('learning');
+  const [quantities, setQuantities] = useState({ starter: 0, learning: 1, master: 0 });
   const [formData, setFormData] = useState({
     email: '',
     name: '',
@@ -29,10 +33,71 @@ const CheckoutPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const increment = (key) => {
+    setQuantities((prev) => ({ ...prev, [key]: (prev[key] || 0) + 1 }));
+  };
+
+  const decrement = (key) => {
+    setQuantities((prev) => ({ ...prev, [key]: Math.max(0, (prev[key] || 0) - 1) }));
+  };
+
+  const handleQtyInput = (e, key) => {
+    const raw = e.target.value.replace(/\D/g, '');
+    const next = Math.max(0, parseInt(raw || '0', 10));
+    setQuantities((prev) => ({ ...prev, [key]: next }));
+  };
+
+  const handleQtyKeyDown = (e, key) => {
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      increment(key);
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      decrement(key);
+    }
+  };
+
+  const cartItems = Object.entries(quantities)
+    .filter(([key, qty]) => qty > 0)
+    .map(([key, qty]) => ({ key, qty }));
+
+  const subtotal = cartItems.reduce((sum, item) => sum + flashcardDecks[item.key].price * item.qty, 0);
+
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Here you would integrate with your payment processor (Stripe, PayPal, etc.)
-    alert(`Thank you! You've ordered ${flashcardDecks[selectedDeck].name} for $${flashcardDecks[selectedDeck].price}. Your flashcards will be shipped within 2-3 business days!`);
+    
+    try {
+      // Create checkout session
+      const response = await fetch('/api/create-checkout-session', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          cart: cartItems,
+          formData,
+          // Send nothing price-related from client to avoid tampering
+        }),
+      });
+
+      const { sessionId } = await response.json();
+
+      if (!response.ok) {
+        throw new Error('Failed to create checkout session');
+      }
+
+      // Redirect to Stripe Checkout
+      const stripe = await stripePromise;
+      const { error } = await stripe.redirectToCheckout({ sessionId });
+
+      if (error) {
+        console.error('Stripe checkout error:', error);
+        alert('Payment failed. Please try again.');
+      }
+    } catch (error) {
+      console.error('Checkout error:', error);
+      alert('Something went wrong. Please try again.');
+    }
   };
 
   return (
@@ -211,13 +276,51 @@ const CheckoutPage = () => {
                       <div 
                         key={key}
                         className={`deck-option ${selectedDeck === key ? 'selected' : ''}`}
-                        onClick={() => setSelectedDeck(key)}
                       >
-                        <div className="deck-info">
+                        <div className="deck-info" onClick={() => setSelectedDeck(key)}>
                           <h6>{deck.name}</h6>
                           <p className="deck-cards">{deck.cards}</p>
                           <p className="deck-description">{deck.description}</p>
                           <span className="price">${deck.price}</span>
+                        </div>
+                        <div
+                          className="qty-controls"
+                          role="group"
+                          aria-label={`Quantity for ${deck.name}`}
+                        >
+                          <button
+                            type="button"
+                            className="qty-btn minus"
+                            aria-label={`Decrease ${deck.name} quantity`}
+                            onClick={() => decrement(key)}
+                            disabled={(quantities[key] || 0) === 0}
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                          </button>
+                          <input
+                            type="number"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            min="0"
+                            value={quantities[key] || 0}
+                            onChange={(e) => handleQtyInput(e, key)}
+                            onKeyDown={(e) => handleQtyKeyDown(e, key)}
+                            className="qty-input"
+                            aria-live="polite"
+                            aria-label={`${deck.name} quantity`}
+                          />
+                          <button
+                            type="button"
+                            className="qty-btn plus"
+                            aria-label={`Increase ${deck.name} quantity`}
+                            onClick={() => increment(key)}
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                          </button>
                         </div>
                       </div>
                     ))}
@@ -232,8 +335,8 @@ const CheckoutPage = () => {
                 </div>
                 
                 <div className="total">
-                  <h5>Total: ${flashcardDecks[selectedDeck].price}</h5>
-                  <p>One-time purchase</p>
+                  <h5>Subtotal: ${subtotal.toFixed(2)}</h5>
+                  <p>One-time purchase • Free shipping</p>
                 </div>
                 
                 <div className="security-badges">
@@ -330,11 +433,11 @@ const CheckoutPage = () => {
           color: white;
         }
         
-        .plan-options {
+        .deck-options {
           margin-bottom: 20px;
         }
         
-        .plan-option {
+        .deck-option {
           padding: 15px;
           border: 2px solid #e1e5e9;
           border-radius: 8px;
@@ -343,25 +446,50 @@ const CheckoutPage = () => {
           transition: all 0.3s;
         }
         
-        .plan-option.selected {
+        .deck-option.selected {
           border-color: #007bff;
           background: #f0f8ff;
         }
         
-        .plan-info h6 {
+        .deck-info h6 {
           margin: 0 0 5px 0;
           font-size: 16px;
+        }
+        
+        .deck-cards {
+          margin: 5px 0;
+          font-weight: 600;
+          color: #007bff;
+        }
+        
+        .deck-description {
+          margin: 5px 0 10px 0;
+          font-size: 14px;
+          color: #666;
+        }
+        
+        .shipping-info {
+          margin-bottom: 20px;
+          padding: 15px;
+          background: #f8f9fa;
+          border-radius: 8px;
+        }
+        
+        .shipping-info h5 {
+          margin: 0 0 10px 0;
+          font-size: 16px;
+        }
+        
+        .shipping-info p {
+          margin: 5px 0;
+          font-size: 14px;
+          color: #666;
         }
         
         .price {
           font-size: 24px;
           font-weight: bold;
           color: #007bff;
-        }
-        
-        .period {
-          color: #666;
-          font-size: 14px;
         }
         
         .total {
@@ -392,6 +520,90 @@ const CheckoutPage = () => {
           color: #28a745;
           margin-right: 8px;
         }
+
+        /* Deck option layout refresh */
+        .deck-options {
+          display: grid;
+          gap: 14px;
+        }
+        .deck-option {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 16px;
+          padding: 18px;
+          border: 1px solid #e8ecf1;
+          border-radius: 14px;
+          background: linear-gradient(180deg, #ffffff 0%, #fcfdff 100%);
+          box-shadow: 0 6px 24px rgba(16, 24, 40, 0.06);
+          transition: border-color 0.25s ease, transform 0.06s ease, box-shadow 0.25s ease, background 0.25s ease;
+        }
+        .deck-option:hover {
+          border-color: #c9d7ee;
+          box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
+        }
+        .deck-option.selected {
+          border-color: #007bff;
+          background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%);
+          box-shadow: 0 8px 28px rgba(0, 123, 255, 0.15);
+        }
+
+        /* Quantity stepper */
+        .qty-controls {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          padding: 8px;
+          border-radius: 999px;
+          background: rgba(255,255,255,0.65);
+          border: 1px solid #e6ebf2;
+          box-shadow: 0 1px 2px rgba(16,24,40,0.04), 0 6px 18px rgba(16,24,40,0.08);
+          backdrop-filter: saturate(1.2) blur(6px);
+        }
+        .qty-btn {
+          width: 40px;
+          height: 40px;
+          border-radius: 50%;
+          border: 0;
+          background: #eef3fb;
+          color: #0f172a;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: background 0.2s ease, transform 0.06s ease, box-shadow 0.2s ease, color 0.2s ease;
+          box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), 0 1px 2px rgba(16,24,40,0.06);
+        }
+        .qty-btn:hover { background: #e4ecf9; box-shadow: inset 0 -1px 0 rgba(255,255,255,0.7), 0 4px 10px rgba(16,24,40,0.08); }
+        .qty-btn:active { transform: scale(0.98); }
+        .qty-btn.plus { background: #0b72e7; color: #fff; }
+        .qty-btn.plus:hover { background: #085bb8; }
+        .qty-btn.minus:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(20%); }
+
+        .qty-input {
+          width: 64px;
+          height: 40px;
+          padding: 0 6px;
+          text-align: center;
+          font-weight: 800;
+          font-size: 16px;
+          letter-spacing: 0.02em;
+          border: 0;
+          border-radius: 10px;
+          background: #ffffff;
+          color: #0f172a;
+          outline: none;
+          box-shadow: inset 0 0 0 1px #edf1f7;
+          transition: box-shadow 0.2s ease;
+        }
+        .qty-input:focus {
+          box-shadow: inset 0 0 0 2px #0b72e7, 0 0 0 4px rgba(11,114,231,0.12);
+        }
+
+        /* Hide native number spinners */
+        :global(input[type="number"]::-webkit-outer-spin-button),
+        :global(input[type="number"]::-webkit-inner-spin-button) { -webkit-appearance: none; margin: 0; }
+        :global(input[type="number"]) { -moz-appearance: textfield; }
       `}</style>
     </div>
   );
