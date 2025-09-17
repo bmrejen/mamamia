@@ -17,11 +17,11 @@ const page = () => {
   return (
       <div>
             <HeroBanner1
-                subtitle="<span>News!</span>Find Your Solution"
-                title="We Develop Websites, Applications, and Brands."
-                content="There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don't look even slightly believable. If you are going to use a passage of Lorem Ipsum,"
-                btnname="Get Started Now"
-                btnurl="/contact"
+                subtitle="<span>News version!</span>Even smarter"
+                title="The best flashcards to learn quickly"
+                content="Learn anything with our flashcards. Create your own flashcards or use our pre-made ones. Learn anything with our flashcards. Create your own flashcards or use our pre-made ones."
+                btnname="Buy Now!"
+                btnurl="/pricing"
                 btntwo="Learn More"
                 btn2url="/about"
                 cusimg="/assets/images/intro/introProfileThumb1_1.png"
