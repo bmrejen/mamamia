@@ -1,15 +1,15 @@
 import React from 'react';
-import HeroBanner3 from '../Components/HeroBanner/HeroBanner3';
-import Feature4 from '../Components/Feature/Feature4';
-import Feature5 from '../Components/Feature/Feature5';
-import Feature6 from '../Components/Feature/Feature6';
-import HowWork3 from '../Components/HowWork/HowWork3';
-import Pricing1 from '../Components/Pricing/Pricing3';
-import Counter1 from '../Components/Counter/Counter1';
-import About3 from '../Components/About/About3';
-import Brand3 from '../Components/Brand/Brand3';
-import Testimonial3 from '../Components/Testimonial/Testimonial3';
-import Blog1 from '../Components/Blog/Blog1';
+import HeroBanner3 from '@/Components/HeroBanner/HeroBanner3';
+import Feature4 from '@/Components/Feature/Feature4';
+import Feature5 from '@/Components/Feature/Feature5';
+import Feature6 from '@/Components/Feature/Feature6';
+import HowWork3 from '@/Components/HowWork/HowWork3';
+import Pricing1 from '@/Components/Pricing/Pricing1';
+import Counter1 from '@/Components/Counter/Counter1';
+import About3 from '@/Components/About/About3';
+import Brand3 from '@/Components/Brand/Brand3';
+import Testimonial3 from '@/Components/Testimonial/Testimonial3';
+import Blog1 from '@/Components/Blog/Blog1';
 
 const page = () => {
     return (

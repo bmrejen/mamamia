@@ -1,5 +1,5 @@
-import BreadCumb from '@/app/Components/Common/BreadCumb';
-import ServiceDetails from '@/app/Components/ServiceDetails/ServiceDetails';
+import BreadCumb from '@/Components/Common/BreadCumb';
+import ServiceDetails from '@/Components/ServiceDetails/ServiceDetails';
 import React from 'react';
 
 const page = () => {

@@ -1,9 +1,9 @@
-import About4 from '@/app/Components/About/About4';
-import Choose2 from '@/app/Components/Choose/Choose2';
-import Choose4 from '@/app/Components/Choose/Choose4';
-import BreadCumb from '@/app/Components/Common/BreadCumb';
-import HowWork from '@/app/Components/HowWork/HowWork';
-import Testimonial4 from '@/app/Components/Testimonial/Testimonial4';
+import About4 from '@/Components/About/About4';
+import Choose2 from '@/Components/Choose/Choose2';
+import Choose4 from '@/Components/Choose/Choose4';
+import BreadCumb from '@/Components/Common/BreadCumb';
+import HowWork from '@/Components/HowWork/HowWork';
+import Testimonial4 from '@/Components/Testimonial/Testimonial4';
 import React from 'react';
 
 const page = () => {

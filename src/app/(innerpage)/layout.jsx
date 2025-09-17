@@ -1,6 +1,6 @@
 import React from 'react';
-import Header4 from '../Components/Header/Header4';
-import Footer from '../Components/Footer/Footer';
+import Header4 from '@/Components/Header/Header4';
+import Footer from '@/Components/Footer/Footer';
 
 const DefalultLayout = ({ children }) => {
     return (

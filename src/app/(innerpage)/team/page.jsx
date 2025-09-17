@@ -1,5 +1,5 @@
-import BreadCumb from '@/app/Components/Common/BreadCumb';
-import Team1 from '@/app/Components/Team/Team1';
+import BreadCumb from '@/Components/Common/BreadCumb';
+import Team1 from '@/Components/Team/Team1';
 import React from 'react';
 
 const page = () => {

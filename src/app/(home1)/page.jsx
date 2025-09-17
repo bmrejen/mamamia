@@ -1,17 +1,17 @@
 import React from 'react';
-import HeroBanner1 from '../Components/HeroBanner/HeroBanner1';
-import Brand1 from '../Components/Brand/Brand1';
-import About1 from '../Components/About/About1';
-import HowWork from '../Components/HowWork/HowWork';
-import Choose1 from '../Components/Choose/Choose1';
-import Feature1 from '../Components/Feature/Feature1';
-import Counter1 from '../Components/Counter/Counter1';
-import Faq1 from '../Components/Faq/Faq1';
-import Testimonial from '../Components/Testimonial/Testimonial';
-import Feature2 from '../Components/Feature/Feature2';
-import Pricing1 from '../Components/Pricing/Pricing1';
-import Cta1 from '../Components/Cta/Cta1';
-import Blog1 from '../Components/Blog/Blog1';
+import HeroBanner1 from '@/Components/HeroBanner/HeroBanner1';
+import Brand1 from '@/Components/Brand/Brand1';
+import About1 from '@/Components/About/About1';
+import HowWork from '@/Components/HowWork/HowWork';
+import Choose1 from '@/Components/Choose/Choose1';
+import Feature1 from '@/Components/Feature/Feature1';
+import Counter1 from '@/Components/Counter/Counter1';
+import Faq1 from '@/Components/Faq/Faq1';
+import Testimonial from '@/Components/Testimonial/Testimonial';
+import Feature2 from '@/Components/Feature/Feature2';
+import Pricing1 from '@/Components/Pricing/Pricing1';
+import Cta1 from '@/Components/Cta/Cta1';
+import Blog1 from '@/Components/Blog/Blog1';
 
 const page = () => {
   return (

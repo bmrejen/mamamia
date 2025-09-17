@@ -1,8 +1,8 @@
-import Brand3 from '@/app/Components/Brand/Brand3';
-import BreadCumb from '@/app/Components/Common/BreadCumb';
-import Cta2 from '@/app/Components/Cta/Cta2';
-import Services1 from '@/app/Components/Services/Services1';
-import Team2 from '@/app/Components/Team/Team2';
+import Brand3 from '@/Components/Brand/Brand3';
+import BreadCumb from '@/Components/Common/BreadCumb';
+import Cta2 from '@/Components/Cta/Cta2';
+import Services1 from '@/Components/Services/Services1';
+import Team2 from '@/Components/Team/Team2';
 import React from 'react';
 
 const page = () => {

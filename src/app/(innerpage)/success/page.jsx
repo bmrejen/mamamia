@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
-import BreadCumb from '../../Components/Common/BreadCumb';
+import BreadCumb from '@/Components/Common/BreadCumb';
 
 const SuccessPage = () => {
   const [sessionData, setSessionData] = useState(null);
