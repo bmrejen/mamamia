@@ -1,11 +1,14 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import BreadCumb from '@/Components/Common/BreadCumb';
+import { publicCatalog as catalog } from '@/lib/catalog';
+import { useSearchParams } from 'next/navigation';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
 const CheckoutPage = () => {
+  const searchParams = useSearchParams();
   const [selectedDeck, setSelectedDeck] = useState('learning');
   const [quantities, setQuantities] = useState({ starter: 0, learning: 1, master: 0 });
   const [formData, setFormData] = useState({
@@ -20,11 +23,19 @@ const CheckoutPage = () => {
     cvv: ''
   });
 
-  const flashcardDecks = {
-    starter: { price: 24.99, name: 'Starter Deck', cards: '250 Cards', description: 'Perfect for beginners! Essential English vocabulary with colorful illustrations.' },
-    learning: { price: 39.99, name: 'Learning Deck', cards: '500 Cards', description: 'Our most popular choice! Comprehensive vocabulary covering everyday English.' },
-    master: { price: 59.99, name: 'Master Deck', cards: '1000 Cards', description: 'Complete English learning system! Advanced vocabulary, grammar, and conversation starters.' }
-  };
+  const flashcardDecks = catalog;
+
+  // Initialize quantities from URL preset, e.g. /checkout?preset=starter&qty=1
+  useEffect(() => {
+    const preset = (searchParams?.get('preset') || '').toLowerCase();
+    const qtyParam = parseInt(searchParams?.get('qty') || '1', 10);
+    const qty = Number.isFinite(qtyParam) && qtyParam > 0 ? qtyParam : 1;
+    if (preset && (preset === 'starter' || preset === 'learning' || preset === 'master')) {
+      setQuantities({ starter: 0, learning: 0, master: 0, [preset]: qty });
+      setSelectedDeck(preset);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const handleInputChange = (e) => {
     setFormData({

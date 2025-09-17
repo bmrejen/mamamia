@@ -18,13 +18,13 @@ const nunito = Nunito({
 export const metadata = {
   title: {
     absolute: '',
-    default: 'Niotech - Saas & App Landing Page NextJS Template',
-    template: '%s | Niotech - Saas & App Landing Page NextJS Template',
+    default: 'Mamamia Cards - Learn English with Flashcards',
+    template: '%s | Mamamia Cards - Learn English with Flashcards',
   },
-  description: 'Niotech - Saas & App Landing Page NextJS Template',
+  description: 'Mamamia Cards - Learn English with Flashcards',
   openGraph: {
-    title: 'Niotech - Saas & App Landing Page NextJS Template',
-    description: 'Niotech - Saas & App Landing Page NextJS Template',
+    title: 'Mamamia Cards - Learn English with Flashcards',
+    description: 'Mamamia Cards - Learn English with Flashcards',
   },
 };
 

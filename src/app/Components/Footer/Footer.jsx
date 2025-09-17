@@ -140,8 +140,7 @@ const Footer = () => {
                                             </svg>
                                         </div>
                                         <div className="link">
-                                            <a href="mailto:contact.tech@gmail.com">contact.tech@gmail.com</a> <br/>
-                                            <a href="mailto:info@Niotech.com">info@Niotech.com</a>
+                                            <a href="mailto:benoit.mrejen@gmail.com">benoit.mrejen@gmail.com</a> <br/>
                                         </div>
                                     </div>
                                     <div className="info">
@@ -163,8 +162,7 @@ const Footer = () => {
                                             </svg>
                                         </div>
                                         <div className="link">
-                                            <a href="tel:21314234323543">+880 123 654 789 00</a> <br/>
-                                            <a href="tel:35234523452345">+001 6520 698 00</a>
+                                            <a href="tel:+8615618928329">+86 156 1892 8329</a> <br/>
                                         </div>
                                     </div>
                                 </div>
@@ -177,7 +175,7 @@ const Footer = () => {
                 <div className="container">
                     <div className="footer-wrapper d-flex align-items-center justify-content-between">
                         <p className="wow fadeInLeft" data-wow-delay=".3s">
-                            Copyright © Niotech All rights
+                            Copyright © Mamamia Cards All rights
                         </p>
                         <ul className="social-links" data-wow-delay=".5s">
                             <li> <a href="#"><i className="bi bi-facebook"></i></a> </li>

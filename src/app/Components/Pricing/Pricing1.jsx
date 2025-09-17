@@ -1,6 +1,7 @@
 "use client"
 import PricingCard from "../Card/PricingCard";
 import Image from "next/image";
+import { publicCatalog as catalog } from "@/lib/catalog";
 
 const Pricing1 = () => {
     return (
@@ -18,59 +19,18 @@ const Pricing1 = () => {
                 <div className="tab-content" id="pills-tabContent">
                     <div className="tab-pane active" role="tabpanel">
                         <div className="row gy-5">
-                            <PricingCard
-                                name="Starter Deck"
-                                price="$24.99"
-                                monthly="250 Cards"
-                                content="Perfect for beginners! Essential English vocabulary with colorful illustrations and clear pronunciation guides."
-                                FeatureList={[
-                                    "250 high-quality flashcards",
-                                    "Basic English vocabulary",
-                                    "Colorful illustrations",
-                                    "Pronunciation guides",
-                                    "Durable cardstock",
-                                    "Free shipping"
-                                ]} 
-                                btnname="Buy Starter Deck"
-                                btnurl="/checkout"
-                            ></PricingCard>
-
-                            <PricingCard
-                                name="Learning Deck"
-                                price="$39.99"
-                                monthly="500 Cards"
-                                content="Our most popular choice! Comprehensive vocabulary covering everyday English with engaging visuals."
-                                FeatureList={[
-                                    "500 high-quality flashcards",
-                                    "Comprehensive vocabulary",
-                                    "Everyday English phrases",
-                                    "Engaging visuals",
-                                    "Durable cardstock",
-                                    "Free shipping",
-                                    "Bonus: Learning guide"
-                                ]} 
-                                btnname="Buy Learning Deck"
-                                btnurl="/checkout"
-                            ></PricingCard>
-
-                            <PricingCard
-                                name="Master Deck"
-                                price="$59.99"
-                                monthly="1000 Cards"
-                                content="Complete English learning system! Advanced vocabulary, grammar, and conversation starters."
-                                FeatureList={[
-                                    "1000 high-quality flashcards",
-                                    "Advanced vocabulary",
-                                    "Grammar concepts",
-                                    "Conversation starters",
-                                    "Durable cardstock",
-                                    "Free shipping",
-                                    "Bonus: Learning guide",
-                                    "Bonus: Progress tracker"
-                                ]} 
-                                btnname="Buy Master Deck"
-                                btnurl="/checkout"
-                            ></PricingCard>
+                            {Object.entries(catalog).map(([key, deck]) => (
+                                <PricingCard
+                                    key={key}
+                                    name={deck.name}
+                                    price={`$${deck.price.toFixed(2)}`}
+                                    monthly={deck.cards}
+                                    content={deck.description}
+                                    FeatureList={deck.features}
+                                    btnname={`Buy ${deck.name}`}
+                                    btnurl={`/checkout?preset=${key}&qty=1`}
+                                />
+                            ))}
                         </div>
                     </div>
                 </div>

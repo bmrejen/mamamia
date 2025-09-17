@@ -1,5 +1,6 @@
 import Stripe from 'stripe';
 import { NextRequest, NextResponse } from 'next/server';
+import { catalog, type CatalogKey } from '@/lib/catalog'
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: '2025-08-27.basil',
@@ -8,14 +9,9 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { cart, formData } = body as { cart: Array<{ key: string; qty: number }>; formData: any };
+    const { cart, formData } = body as { cart: Array<{ key: CatalogKey; qty: number }>; formData: any };
 
-    // Server-side authoritative product catalog (prevents client tampering)
-    const catalog: Record<string, { name: string; price: number; cards: string; description: string }> = {
-      starter: { price: 24.99, name: 'Starter Deck', cards: '250 Cards', description: 'Perfect for beginners! Essential English vocabulary with colorful illustrations.' },
-      learning: { price: 39.99, name: 'Learning Deck', cards: '500 Cards', description: 'Our most popular choice! Comprehensive vocabulary covering everyday English.' },
-      master: { price: 59.99, name: 'Master Deck', cards: '1000 Cards', description: 'Complete English learning system! Advanced vocabulary, grammar, and conversation starters.' }
-    };
+    // Use centralized server-side catalog (authoritative)
 
     if (!Array.isArray(cart) || cart.length === 0) {
       return NextResponse.json({ error: 'Cart is empty' }, { status: 400 });
