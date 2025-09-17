@@ -41,7 +41,7 @@ const HowWork3 = () => {
                      </div>
                      <div className="col-lg-4 wow fadeInUp" data-wow-delay=".3s">
                          <div className="gap-image">
-                         <Image src="/assets/images/gap.png" alt="img" width={376} height={431}   />
+                         <Image src="/assets/images/pic3.jpg" alt="img" width={376} height={431}   />
                          </div>
                      </div>
                 </div>

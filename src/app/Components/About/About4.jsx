@@ -27,9 +27,10 @@ const About4 = ({img1,img2,subtitle,title,content,FeatureList,btnname,btnurl}) =
                                     <div className="main-thumb">
                                     <Image src={img1} alt="img" width={436} height={530}   />
                                     </div>
-                                    <div className="absolute-thumb float-bob-x">
+                                    {/* Floating image */}
+                                    {/* <div className="absolute-thumb float-bob-x">
                                     <Image src={img2} alt="img" width={216} height={108}   />
-                                    </div>
+                                    </div> */}
     
                                 </div>
                             </div>

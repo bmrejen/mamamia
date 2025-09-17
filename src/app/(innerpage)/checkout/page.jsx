@@ -1,5 +1,5 @@
 "use client"
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Suspense } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import BreadCumb from '@/Components/Common/BreadCumb';
 import { publicCatalog as catalog } from '@/lib/catalog';
@@ -7,7 +7,7 @@ import { useSearchParams } from 'next/navigation';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 
-const CheckoutPage = () => {
+const CheckoutInner = () => {
   const searchParams = useSearchParams();
   const [selectedDeck, setSelectedDeck] = useState('learning');
   const [quantities, setQuantities] = useState({ starter: 0, learning: 1, master: 0 });
@@ -120,8 +120,90 @@ const CheckoutPage = () => {
       
       <section className="checkout-section section-padding">
         <div className="container">
-          <div className="row">
-            <div className="col-lg-8">
+          <div>
+            <div className="">
+              <div className="order-summary">
+                <h4>Order Summary</h4>
+                
+                <div className="deck-selection">
+                  <h5>Select Flashcard Deck</h5>
+                  
+                  <div className="deck-options">
+                    {Object.entries(flashcardDecks).map(([key, deck]) => (
+                      <div 
+                        key={key}
+                        className={`deck-option ${selectedDeck === key ? 'selected' : ''}`}
+                      >
+                        <div className="deck-info" onClick={() => setSelectedDeck(key)}>
+                          <h6>{deck.name}</h6>
+                          <p className="deck-cards">{deck.cards}</p>
+                          <p className="deck-description">{deck.description}</p>
+                          <span className="price">${deck.price}</span>
+                        </div>
+                        <div
+                          className="qty-controls"
+                          role="group"
+                          aria-label={`Quantity for ${deck.name}`}
+                        >
+                          <button
+                            type="button"
+                            className="qty-btn minus"
+                            aria-label={`Decrease ${deck.name} quantity`}
+                            onClick={() => decrement(key)}
+                            disabled={(quantities[key] || 0) === 0}
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                          </button>
+                          <input
+                            type="number"
+                            inputMode="numeric"
+                            pattern="[0-9]*"
+                            min="0"
+                            value={quantities[key] || 0}
+                            onChange={(e) => handleQtyInput(e, key)}
+                            onKeyDown={(e) => handleQtyKeyDown(e, key)}
+                            className="qty-input"
+                            aria-live="polite"
+                            aria-label={`${deck.name} quantity`}
+                          />
+                          <button
+                            type="button"
+                            className="qty-btn plus"
+                            aria-label={`Increase ${deck.name} quantity`}
+                            onClick={() => increment(key)}
+                          >
+                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
+                            </svg>
+                          </button>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+                <div className="shipping-info">
+                  <h5>Shipping</h5>
+                  <p>✅ Free shipping worldwide</p>
+                  <p>📦 Ships within 2-3 business days</p>
+                  <p>📧 Tracking number provided</p>
+                </div>
+                
+                <div className="total">
+                  <h5>Subtotal: ${subtotal.toFixed(2)}</h5>
+                  <p>One-time purchase • Free shipping</p>
+                </div>
+                
+                <div className="security-badges">
+                  <p><i className="fas fa-lock"></i> Secure 256-bit SSL encryption</p>
+                  <p><i className="fas fa-shield-alt"></i> 30-day money-back guarantee</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="">
               <div className="checkout-form">
                 <h3>Complete Your Purchase</h3>
                 <form onSubmit={handleSubmit}>
@@ -275,87 +357,7 @@ const CheckoutPage = () => {
               </div>
             </div>
             
-            <div className="col-lg-4">
-              <div className="order-summary">
-                <h4>Order Summary</h4>
-                
-                <div className="deck-selection">
-                  <h5>Select Flashcard Deck</h5>
-                  
-                  <div className="deck-options">
-                    {Object.entries(flashcardDecks).map(([key, deck]) => (
-                      <div 
-                        key={key}
-                        className={`deck-option ${selectedDeck === key ? 'selected' : ''}`}
-                      >
-                        <div className="deck-info" onClick={() => setSelectedDeck(key)}>
-                          <h6>{deck.name}</h6>
-                          <p className="deck-cards">{deck.cards}</p>
-                          <p className="deck-description">{deck.description}</p>
-                          <span className="price">${deck.price}</span>
-                        </div>
-                        <div
-                          className="qty-controls"
-                          role="group"
-                          aria-label={`Quantity for ${deck.name}`}
-                        >
-                          <button
-                            type="button"
-                            className="qty-btn minus"
-                            aria-label={`Decrease ${deck.name} quantity`}
-                            onClick={() => decrement(key)}
-                            disabled={(quantities[key] || 0) === 0}
-                          >
-                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                            </svg>
-                          </button>
-                          <input
-                            type="number"
-                            inputMode="numeric"
-                            pattern="[0-9]*"
-                            min="0"
-                            value={quantities[key] || 0}
-                            onChange={(e) => handleQtyInput(e, key)}
-                            onKeyDown={(e) => handleQtyKeyDown(e, key)}
-                            className="qty-input"
-                            aria-live="polite"
-                            aria-label={`${deck.name} quantity`}
-                          />
-                          <button
-                            type="button"
-                            className="qty-btn plus"
-                            aria-label={`Increase ${deck.name} quantity`}
-                            onClick={() => increment(key)}
-                          >
-                            <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true">
-                              <path d="M12 5v14M5 12h14" stroke="currentColor" strokeWidth="2" strokeLinecap="round"/>
-                            </svg>
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-                
-                <div className="shipping-info">
-                  <h5>Shipping</h5>
-                  <p>✅ Free shipping worldwide</p>
-                  <p>📦 Ships within 2-3 business days</p>
-                  <p>📧 Tracking number provided</p>
-                </div>
-                
-                <div className="total">
-                  <h5>Subtotal: ${subtotal.toFixed(2)}</h5>
-                  <p>One-time purchase • Free shipping</p>
-                </div>
-                
-                <div className="security-badges">
-                  <p><i className="fas fa-lock"></i> Secure 256-bit SSL encryption</p>
-                  <p><i className="fas fa-shield-alt"></i> 30-day money-back guarantee</p>
-                </div>
-              </div>
-            </div>
+
           </div>
         </div>
       </section>
@@ -394,11 +396,11 @@ const CheckoutPage = () => {
         
         .form-control:focus {
           outline: none;
-          border-color: #007bff;
+          border-color: var(--theme);
         }
         
         .theme-btn {
-          background: #007bff;
+          background: var(--theme);
           color: white;
           padding: 15px 30px;
           border: none;
@@ -410,9 +412,7 @@ const CheckoutPage = () => {
           transition: background 0.3s;
         }
         
-        .theme-btn:hover {
-          background: #0056b3;
-        }
+        .theme-btn:hover { background: #6d5138; }
         
         .order-summary {
           background: #f8f9fa;
@@ -420,6 +420,7 @@ const CheckoutPage = () => {
           border-radius: 10px;
           position: sticky;
           top: 20px;
+          width: 100%;
         }
         
         .billing-toggle {
@@ -440,7 +441,7 @@ const CheckoutPage = () => {
         }
         
         .billing-toggle button.active {
-          background: #007bff;
+          background: var(--theme);
           color: white;
         }
         
@@ -458,8 +459,8 @@ const CheckoutPage = () => {
         }
         
         .deck-option.selected {
-          border-color: #007bff;
-          background: #f0f8ff;
+          border-color: var(--theme);
+          background: var(--theme2);
         }
         
         .deck-info h6 {
@@ -467,11 +468,7 @@ const CheckoutPage = () => {
           font-size: 16px;
         }
         
-        .deck-cards {
-          margin: 5px 0;
-          font-weight: 600;
-          color: #007bff;
-        }
+        .deck-cards { margin: 5px 0; font-weight: 600; color: var(--theme); }
         
         .deck-description {
           margin: 5px 0 10px 0;
@@ -497,11 +494,7 @@ const CheckoutPage = () => {
           color: #666;
         }
         
-        .price {
-          font-size: 24px;
-          font-weight: bold;
-          color: #007bff;
-        }
+        .price { font-size: 24px; font-weight: bold; color: var(--theme); }
         
         .total {
           border-top: 2px solid #e1e5e9;
@@ -509,11 +502,7 @@ const CheckoutPage = () => {
           margin-top: 20px;
         }
         
-        .total h5 {
-          font-size: 24px;
-          color: #007bff;
-          margin: 0;
-        }
+        .total h5 { font-size: 24px; color: var(--theme); margin: 0; }
         
         .security-badges {
           margin-top: 20px;
@@ -550,14 +539,10 @@ const CheckoutPage = () => {
           transition: border-color 0.25s ease, transform 0.06s ease, box-shadow 0.25s ease, background 0.25s ease;
         }
         .deck-option:hover {
-          border-color: #c9d7ee;
+          border-color: #dccdbf;
           box-shadow: 0 10px 30px rgba(16, 24, 40, 0.08);
         }
-        .deck-option.selected {
-          border-color: #007bff;
-          background: linear-gradient(180deg, #f3f8ff 0%, #ffffff 100%);
-          box-shadow: 0 8px 28px rgba(0, 123, 255, 0.15);
-        }
+        .deck-option.selected { border-color: var(--theme); background: linear-gradient(180deg, var(--theme2) 0%, #ffffff 100%); box-shadow: 0 8px 28px rgba(122, 92, 62, 0.15); }
 
         /* Quantity stepper */
         .qty-controls {
@@ -576,7 +561,7 @@ const CheckoutPage = () => {
           height: 40px;
           border-radius: 50%;
           border: 0;
-          background: #eef3fb;
+          background: #efe6d9;
           color: #0f172a;
           display: inline-flex;
           align-items: center;
@@ -585,10 +570,10 @@ const CheckoutPage = () => {
           transition: background 0.2s ease, transform 0.06s ease, box-shadow 0.2s ease, color 0.2s ease;
           box-shadow: inset 0 -1px 0 rgba(255,255,255,0.5), 0 1px 2px rgba(16,24,40,0.06);
         }
-        .qty-btn:hover { background: #e4ecf9; box-shadow: inset 0 -1px 0 rgba(255,255,255,0.7), 0 4px 10px rgba(16,24,40,0.08); }
+        .qty-btn:hover { background: #e6dbcc; box-shadow: inset 0 -1px 0 rgba(255,255,255,0.7), 0 4px 10px rgba(16,24,40,0.08); }
         .qty-btn:active { transform: scale(0.98); }
-        .qty-btn.plus { background: #0b72e7; color: #fff; }
-        .qty-btn.plus:hover { background: #085bb8; }
+        .qty-btn.plus { background: var(--theme); color: #fff; }
+        .qty-btn.plus:hover { background: #6d5138; }
         .qty-btn.minus:disabled { opacity: 0.45; cursor: not-allowed; filter: grayscale(20%); }
 
         .qty-input {
@@ -607,9 +592,7 @@ const CheckoutPage = () => {
           box-shadow: inset 0 0 0 1px #edf1f7;
           transition: box-shadow 0.2s ease;
         }
-        .qty-input:focus {
-          box-shadow: inset 0 0 0 2px #0b72e7, 0 0 0 4px rgba(11,114,231,0.12);
-        }
+        .qty-input:focus { box-shadow: inset 0 0 0 2px var(--theme), 0 0 0 4px rgba(122, 92, 62, 0.12); }
 
         /* Hide native number spinners */
         :global(input[type="number"]::-webkit-outer-spin-button),
@@ -619,5 +602,11 @@ const CheckoutPage = () => {
     </div>
   );
 };
+
+const CheckoutPage = () => (
+  <Suspense fallback={null}>
+    <CheckoutInner />
+  </Suspense>
+);
 
 export default CheckoutPage;

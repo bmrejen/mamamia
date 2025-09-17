@@ -1,17 +1,32 @@
 import React from 'react';
 import HeroBanner1 from '@/Components/HeroBanner/HeroBanner1';
+import HeroBanner2 from '@/Components/HeroBanner/HeroBanner2';
+import HeroBanner3 from '@/Components/HeroBanner/HeroBanner3';
 import Brand1 from '@/Components/Brand/Brand1';
+import Brand2 from '@/Components/Brand/Brand2';
 import About1 from '@/Components/About/About1';
+import About2 from '@/Components/About/About2';
+import About3 from '@/Components/About/About3';
+import About4 from '@/Components/About/About4';
 import HowWork from '@/Components/HowWork/HowWork';
+import HowWork2 from '@/Components/HowWork/HowWork2';
+import HowWork3 from '@/Components/HowWork/HowWork3';
 import Choose1 from '@/Components/Choose/Choose1';
+import Choose2 from '@/Components/Choose/Choose2';
+import Choose3 from '@/Components/Choose/Choose3';
+import Choose4 from '@/Components/Choose/Choose4';
 import Feature1 from '@/Components/Feature/Feature1';
 import Counter1 from '@/Components/Counter/Counter1';
 import Faq1 from '@/Components/Faq/Faq1';
 import Testimonial from '@/Components/Testimonial/Testimonial';
+import Testimonial2 from '@/Components/Testimonial/Testimonial2';
+import Testimonial3 from '@/Components/Testimonial/Testimonial3';
+import Testimonial4 from '@/Components/Testimonial/Testimonial4';
 import Feature2 from '@/Components/Feature/Feature2';
 import Pricing1 from '@/Components/Pricing/Pricing1';
 import Cta1 from '@/Components/Cta/Cta1';
 import Blog1 from '@/Components/Blog/Blog1';
+import Blog2 from '@/Components/Blog/Blog2';
 
 const page = () => {
   return (
@@ -30,10 +45,10 @@ const page = () => {
                 rating="4.8/5"
                 ratingcon="Rating"
             ></HeroBanner1>
-            <Brand1></Brand1>   
-            <About1
-                img1="/assets/images/about/aboutThumb1_1.png"
-                img2="/assets/images/about/aboutThumb1_2.png"
+            <Brand2></Brand2>   
+            <About4
+                img1="/assets/images/pic1.jpg"
+                img2="/assets/images/pic2.jpg"
                 subtitle="About Our Flashcards"
                 title="Designed for Children's Learning Success"
                 content="Our flashcards are carefully crafted with child development in mind. Each card features clear, colorful illustrations and age-appropriate vocabulary to make learning English fun and effective."
@@ -45,8 +60,8 @@ const page = () => {
                 ]}                
                 btnname="View All Decks"
                 btnurl="/pricing"
-            ></About1>  
-            <HowWork></HowWork> 
+            ></About4>  
+            <HowWork3></HowWork3> 
             <Choose1
                 subtitle="Why Choose Our Flashcards"
                 title="The Perfect Learning Tool for Children"
@@ -65,7 +80,7 @@ const page = () => {
             <Feature1></Feature1> 
             <Counter1></Counter1>
             <Faq1></Faq1> 
-            <Testimonial></Testimonial>  
+            <Testimonial2></Testimonial2>  
             <Feature2></Feature2>
             <Pricing1></Pricing1> 
             <Cta1
@@ -76,7 +91,7 @@ const page = () => {
                 btnurl2="/pricing"
                 img="/assets/images/cta/ctaThumb1_1.png"
             ></Cta1>     
-            <Blog1></Blog1>                         
+            <Blog2></Blog2>                         
     </div>
   );
 };

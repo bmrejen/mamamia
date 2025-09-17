@@ -22,7 +22,7 @@ const HeroBanner1 = ({subtitle,title,content,btnname,btnurl,btntwo,btn2url,cusim
 
                         <div className="shape1"><Image src="/assets/images/shape/introShape1_1.png" alt="img" width={1149} height={854} /></div>
                     {/* <div className="shape2"><Image src="/assets/images/shape/introShape1_2.png" alt="img" width={983} height={954}   /></div> */}
-                    <div className="shape3 d-none d-xxl-block cir36"><Image src="/assets/images/shape/introShape1_3.png" alt="img" width={58} height={58}   /></div>
+                    {/* <div className="shape3 d-none d-xxl-block cir36"><Image src="/assets/images/shape/introShape1_3.png" alt="img" width={58} height={58}   /></div> */}
                     <div className="shape4 d-none d-xxl-block cir36"><Image src="/assets/images/shape/introShape1_4.png" alt="img" width={58} height={58}   /></div>
                     <div className="shape5 d-none d-xxl-block cir36"><Image src="/assets/images/shape/introShape1_5.png" alt="img" width={57} height={58}   /></div>
                     <div className="container">
@@ -53,7 +53,7 @@ const HeroBanner1 = ({subtitle,title,content,btnname,btnurl,btntwo,btn2url,cusim
                                             </svg>
 
                                         </Link>
-                                        <Link className="theme-btn style2 wow fadeInUp" data-wow-delay=".2s"
+                                        {/* <Link className="theme-btn style2 wow fadeInUp" data-wow-delay=".2s"
                                             href={btn2url}>{btntwo}
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
                                                 viewBox="0 0 16 16" fill="none">
@@ -68,7 +68,7 @@ const HeroBanner1 = ({subtitle,title,content,btnname,btnurl,btntwo,btn2url,cusim
                                                     </clipPath>
                                                 </defs>
                                             </svg>
-                                        </Link>
+                                        </Link> */}
                                     </div>
                                     <div className="fancy-box-wrapper style1">
                                         <div className="fancy-box style1 wow fadeInUp" data-wow-delay=".2s">
